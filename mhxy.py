@@ -68,12 +68,14 @@ def move_click(x, y, t=0):  # 移动鼠标并点击左键
 def findpng(Pngfile):
     global window_region
     myConfidence = 0.85
+    pyautogui.FAILSAFE = False
     result = pyautogui.locateOnScreen('images\\'+Pngfile, region=window_region, confidence=myConfidence)
     return result
 
 # 单击指定位置
 def click(x,y):
     move_click(x,y,0.1)
+    pyautogui.FAILSAFE = False
     pyautogui.moveTo(x=window_size[0]+10,y=window_size[1]+10,duration=0.1)  #鼠标移至窗口左上角
 
 # 接任务
@@ -290,7 +292,7 @@ def stop():
 
 def SavePic():
     global window_region
-    
+    pyautogui.FAILSAFE = False
     img=pyautogui.screenshot(region=window_region)
     FileName = "./images/" + datetime.datetime.now().strftime('%H%M%S')
     img.save(FileName + ".png")
