@@ -114,6 +114,9 @@ def do_action():
     elif get_rw("goumai"):  # 购买物品
         flag = 1
         time.sleep(0.1)
+    elif get_rw("goumai2"):  # 购买物品摆摊购买
+        flag = 1
+        time.sleep(0.1)
     elif get_rw("juanxian"):  # 捐献
         flag = 1
         time.sleep(0.1)
