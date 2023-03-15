@@ -201,7 +201,8 @@ def shi_men(window_size):
             time.sleep(1)
 
         result = do_action()
-        if findpng("renwu.png") is True and result == 0 and flag == 0:
+        # if findpng("renwu.png") is True and result == 0 and flag == 0:
+        if result == 0 and flag == 0:
             break
         time.sleep(1)
 
@@ -210,6 +211,7 @@ def shi_men(window_size):
 def zhua_gui(window_size):
     global is_start
     is_start = True
+    figghtCheckNumber = 0
     while is_start:
         if findpng("renwu.png") and not get_rw("zuogui"):
             open_huodong()
@@ -217,6 +219,21 @@ def zhua_gui(window_size):
             get_rw("zuogui_rw")
             get_rw("zudui")  # 自动组队
             get_rw("guanbi")  # 关闭窗口
+        get_rw("guanbi")  # 关闭窗口
+        # 战斗中
+        if findpng("zidong.png"):
+            figghtCheckNumber =0
+        else:
+            # 连续五分钟未参与战斗
+            figghtCheckNumber=figghtCheckNumber+1
+            if figghtCheckNumber > 10:
+                print('捉鬼自动重选队伍')
+                open_huodong()
+                get_rw("richanghuodong")
+                get_rw("zuogui_rw")
+                get_rw("zudui")  # 自动组队
+                get_rw("guanbi")  # 关闭窗口
+
         time.sleep(60)
     return
 
@@ -351,7 +368,7 @@ class MyThread(threading.Thread):
         self.func = func
         self.args = args
 
-        self.setDaemon(True)
+        self.daemon = True;
         self.start()  # 在这里开始
 
     def run(self):
