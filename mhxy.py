@@ -84,6 +84,12 @@ def click(x, y):
     pyautogui.FAILSAFE = False
     pyautogui.moveTo(x=window_size[0] + 10, y=window_size[1] + 10, duration=0.1)  # 鼠标移至窗口左上角
 
+    # 打开队伍
+
+
+def openTeam():
+    pyautogui.hotkey("alt", "t")  # 鼠标移至窗口左上角
+
 
 # 接任务
 def get_rw(rwm):
@@ -212,6 +218,7 @@ def zhua_gui(window_size):
     global is_start
     is_start = True
     figghtCheckNumber = 0
+
     while is_start:
         if findpng("renwu.png") and not get_rw("zuogui"):
             open_huodong()
@@ -222,16 +229,14 @@ def zhua_gui(window_size):
         get_rw("guanbi")  # 关闭窗口
         # 战斗中
         if findpng("zidong.png"):
-            figghtCheckNumber =0
+            figghtCheckNumber = 0
         else:
             # 连续五分钟未参与战斗
-            figghtCheckNumber=figghtCheckNumber+1
+            figghtCheckNumber = figghtCheckNumber + 1
             if figghtCheckNumber > 10:
                 print('捉鬼自动重选队伍')
-                open_huodong()
-                get_rw("richanghuodong")
-                get_rw("zuogui_rw")
-                get_rw("zudui")  # 自动组队
+                get_rw("duiwu")  # 打开队伍队伍
+                get_rw("tuidui")  # 退出队伍
                 get_rw("guanbi")  # 关闭窗口
 
         time.sleep(60)
@@ -386,7 +391,7 @@ if __name__ == "__main__":
         widow_region = (0, 0, 800, 600)
     else:
         window_region = (
-        window_size[0], window_size[1], window_size[2] - window_size[0], window_size[3] - window_size[1])
+            window_size[0], window_size[1], window_size[2] - window_size[0], window_size[3] - window_size[1])
     global is_start
     # shimen(window_size)
     # zhua_gui(window_size)
