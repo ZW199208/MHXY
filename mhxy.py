@@ -78,6 +78,13 @@ def findpng(Pngfile):
     return result
 
 
+def findpng_2(Pngfile, myConfidence):
+    global window_region
+    pyautogui.FAILSAFE = False
+    result = pyautogui.locateOnScreen('images\\' + Pngfile, region=window_region, confidence=myConfidence)
+    return result
+
+
 # 单击指定位置
 def click(x, y):
     move_click(x, y, 0.1)
@@ -94,6 +101,19 @@ def openTeam():
 # 接任务
 def get_rw(rwm):
     pos = findpng(rwm + ".png")
+    print(rwm, pos)
+    if pos is not None:
+        x = pos[0] + pos[2] - 6
+        y = pos[1] + pos[3] - 6
+        click(x, y)
+        time.sleep(0.5)
+        return True
+    else:
+        return False
+
+
+def get_rw_2(rwm, myConfidence):
+    pos = findpng_2(rwm + ".png", myConfidence)
     print(rwm, pos)
     if pos is not None:
         click(pos[0] + pos[2] - 6, pos[1] + pos[3] - 6)
@@ -238,6 +258,7 @@ def zhua_gui(window_size):
                 get_rw("duiwu")  # 打开队伍队伍
                 get_rw("tuidui")  # 退出队伍
                 get_rw("guanbi")  # 关闭窗口
+                figghtCheckNumber = 0
 
         time.sleep(60)
     return
@@ -248,6 +269,7 @@ def bang_pai(window_size):
     global is_start
     is_start = True
     open_huodong()
+    get_rw("richanghuodong")
     if not get_rw("bangpai_rw"):
         print("帮派任务已完成")
         button_bangpai["text"] = "帮派（已完成）"
@@ -275,7 +297,8 @@ def bao_tu(window_size):
     global is_start
     is_start = True
     open_huodong()
-    if not get_rw("baotu_rw"):
+    get_rw("richanghuodong")
+    if not get_rw_2("baotu_rw",0.8):
         print("宝图任务已完成")
         button_baotu["text"] = "宝图（已完成）"
         return
@@ -285,7 +308,9 @@ def bao_tu(window_size):
         print("未找到选择要做的事")
 
     time.sleep(1)
-    get_rw("baotu_1")  # 查找并点击宝图任务
+    get_rw("renwu")  # 打开任务
+    get_rw("btrw")  #打开宝图任务
+    get_rw("mscs")  #点击马上传送
     time.sleep(1)
     button_baotu["text"] = "宝图（已完成）"
 
