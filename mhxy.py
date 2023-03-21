@@ -126,9 +126,13 @@ def get_rw_2(rwm, myConfidence):
 # 等待直到打开活动界面
 def open_huodong():
     global is_start
+    global huodongX
+    global huodongY
     is_start = True
     time.sleep(1)  # 等待1秒
-    print(window_region[0] + window_region[2] / 2, window_region[1] + window_region[3] / 2, window_region)
+    huodongX = window_region[0] + window_region[2] / 2
+    huodongY = window_region[1] + window_region[3] / 2
+    print(huodongX, huodongY, window_region)
     click(window_region[0] + int(window_region[2] / 2), window_region[1] + int(window_region[3] / 2))  # 移到窗口中间，点击以激活窗口
     while is_start:
         if get_rw("huodong"):
@@ -199,6 +203,8 @@ def do_action():
     elif get_rw("chongshi"):  # 重连失败重试
         flag = 1
         time.sleep(0.1)
+    #防止出现卡界面的情况
+    click(huodongX,huodongY)
 
     return flag
 
@@ -229,6 +235,7 @@ def shi_men(window_size):
         result = do_action()
         # if findpng("renwu.png") is True and result == 0 and flag == 0:
         if result == 0 and flag == 0:
+            button_shimen["text"] = "师门（结束）"
             break
         time.sleep(1)
 
@@ -418,6 +425,8 @@ if __name__ == "__main__":
         window_region = (
             window_size[0], window_size[1], window_size[2] - window_size[0], window_size[3] - window_size[1])
     global is_start
+    global huodongX
+    global huodongY
     # shimen(window_size)
     # zhua_gui(window_size)
     # bang_pai(window_size)
@@ -441,6 +450,12 @@ if __name__ == "__main__":
     button_baotu = tk.Button(root, text="宝图", command=lambda: MyThread(bao_tu, window_size), width=15, height=2)
     button_baotu.place(relx=0.4, rely=0.55, width=200)
     button_baotu.pack()
+
+
+
+    button_yunbiao = tk.Button(root, text="运镖", command=lambda: MyThread(yun_biao, window_size), width=15, height=2)
+    button_yunbiao.place(relx=0.4, rely=0.55, width=200)
+    button_yunbiao.pack()
 
     button_zhuagui = tk.Button(root, text="带队抓鬼", command=lambda: MyThread(zhua_gui, window_size), width=15,
                                height=2)
